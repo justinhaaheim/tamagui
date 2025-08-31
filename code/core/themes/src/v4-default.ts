@@ -9,34 +9,58 @@ import { createThemes, defaultComponentThemes } from '@tamagui/theme-builder'
 
 // Themes:
 
+/**
+ * PALETTE SYSTEM EXPLAINED:
+ * Tamagui uses a 12-step palette system where each position has semantic meaning:
+ * 
+ * Positions 1-3: Background colors (lightest backgrounds to slightly darker)
+ *   - color1: Main background (cards, surfaces)
+ *   - color2: Subtle background (hover states)
+ *   - color3: UI element background (borders, dividers)
+ * 
+ * Positions 4-8: Interactive/component colors (progressively stronger)
+ *   - color4-5: Disabled states, subtle borders
+ *   - color6-7: Hovered elements, active borders
+ *   - color8: Pressed/active states
+ * 
+ * Positions 9-12: Foreground/text colors (progressively higher contrast)
+ *   - color9: Solid backgrounds, primary actions
+ *   - color10: Hovered solid backgrounds
+ *   - color11: Low contrast text
+ *   - color12: High contrast text (primary text)
+ * 
+ * This consistent mapping means components can use color6 for borders,
+ * color9 for buttons, color12 for text, etc., and it works across all themes!
+ */
+
 const darkPalette = [
-  '#050505',
-  '#151515',
-  '#191919',
-  '#232323',
-  '#282828',
-  '#323232',
-  '#424242',
-  '#494949',
-  '#545454',
-  '#626262',
-  '#a5a5a5',
-  '#fff',
+  '#050505',  // [0] color1: Darkest background
+  '#151515',  // [1] color2: Slightly lighter background
+  '#191919',  // [2] color3: Card/surface background
+  '#232323',  // [3] color4: Subtle borders
+  '#282828',  // [4] color5: Element backgrounds
+  '#323232',  // [5] color6: Interactive borders
+  '#424242',  // [6] color7: Hovered borders
+  '#494949',  // [7] color8: Active/pressed states
+  '#545454',  // [8] color9: Solid elements
+  '#626262',  // [9] color10: Hovered solid elements
+  '#a5a5a5',  // [10] color11: Muted text
+  '#fff',     // [11] color12: Primary text
 ]
 
 const lightPalette = [
-  '#fff',
-  '#f2f2f2',
-  'hsl(0, 0%, 93%)',
-  'hsl(0, 0%, 91%)',
-  'hsl(0, 0%, 88%)',
-  'hsl(0, 0%, 85%)',
-  'hsl(0, 0%, 82%)',
-  'hsl(0, 0%, 76%)',
-  'hsl(0, 0%, 56%)',
-  'hsl(0, 0%, 50%)',
-  'hsl(0, 0%, 42%)',
-  'hsl(0, 0%, 9%)',
+  '#fff',                // [0] color1: Pure white background
+  '#f2f2f2',            // [1] color2: Slightly gray background
+  'hsl(0, 0%, 93%)',    // [2] color3: Light gray surface
+  'hsl(0, 0%, 91%)',    // [3] color4: Subtle borders
+  'hsl(0, 0%, 88%)',    // [4] color5: Element backgrounds
+  'hsl(0, 0%, 85%)',    // [5] color6: Interactive borders
+  'hsl(0, 0%, 82%)',    // [6] color7: Hovered borders
+  'hsl(0, 0%, 76%)',    // [7] color8: Active/pressed states
+  'hsl(0, 0%, 56%)',    // [8] color9: Solid elements
+  'hsl(0, 0%, 50%)',    // [9] color10: Hovered solid elements
+  'hsl(0, 0%, 42%)',    // [10] color11: Secondary text
+  'hsl(0, 0%, 9%)',     // [11] color12: Primary text (near black)
 ]
 
 const lightShadows = {
@@ -88,31 +112,55 @@ const whiteColors = {
 }
 
 const generatedThemes = createThemes({
+  /**
+   * COMPONENT THEMES:
+   * Pre-built theme variations for Tamagui components like Button, Card, etc.
+   * These define how components look in different semantic contexts (primary, danger, etc.)
+   * You care about these because they give you the "variant" behavior you're looking for!
+   * Example: <Button theme="danger" /> will use the danger component theme
+   */
   componentThemes: defaultComponentThemes,
 
+  /**
+   * BASE THEME:
+   * The foundation that all other themes build upon.
+   * This is your default light/dark mode configuration.
+   */
   base: {
+    /**
+     * PALETTE:
+     * Maps to color1-color12 in your themes.
+     * When in light mode, uses lightPalette. In dark mode, uses darkPalette.
+     * Components reference $color1, $color2, etc., and get the right values automatically!
+     */
     palette: {
       dark: darkPalette,
       light: lightPalette,
     },
 
-    // for values we don't want being inherited onto sub-themes
+    /**
+     * EXTRA:
+     * Additional color tokens that DON'T follow the palette system.
+     * These are explicit colors like $blue1, $red5, etc. from Radix Colors.
+     * They DON'T inherit to child themes - useful for one-off accent colors.
+     * This is where you'd add your Bootstrap-style semantic colors!
+     */
     extra: {
       light: {
-        ...Colors.blue,
-        ...Colors.green,
-        ...Colors.red,
-        ...Colors.yellow,
-        ...lightShadows,
-        ...blackColors,
-        ...whiteColors,
-        shadowColor: lightShadows.shadow1,
+        ...Colors.blue,     // Adds $blue1 through $blue12
+        ...Colors.green,    // Adds $green1 through $green12
+        ...Colors.red,      // Adds $red1 through $red12
+        ...Colors.yellow,   // Adds $yellow1 through $yellow12
+        ...lightShadows,    // Shadow tokens for elevation
+        ...blackColors,     // Black scale for when you need true blacks
+        ...whiteColors,     // White scale for when you need true whites
+        shadowColor: lightShadows.shadow1,  // Default shadow color
       },
       dark: {
-        ...Colors.blueDark,
-        ...Colors.greenDark,
-        ...Colors.redDark,
-        ...Colors.yellowDark,
+        ...Colors.blueDark,   // Dark mode versions of blue
+        ...Colors.greenDark,  // Dark mode versions of green
+        ...Colors.redDark,    // Dark mode versions of red
+        ...Colors.yellowDark, // Dark mode versions of yellow
         ...darkShadows,
         ...blackColors,
         ...whiteColors,
@@ -121,28 +169,68 @@ const generatedThemes = createThemes({
     },
   },
 
-  // inverse accent theme
+  /**
+   * ACCENT THEME:
+   * An "inverse" theme - swaps light and dark palettes!
+   * Usage: <Theme name="accent"><Card>I'm inverted!</Card></Theme>
+   * Useful for: CTAs, tooltips, popovers that need to stand out
+   * In light mode, accent uses dark colors. In dark mode, it uses light colors.
+   */
   accent: {
     palette: {
-      dark: lightPalette,
-      light: darkPalette,
+      dark: lightPalette,  // Intentionally swapped!
+      light: darkPalette,  // Intentionally swapped!
     },
   },
 
+  /**
+   * CHILDREN THEMES:
+   * Colored variations that inherit from their parent theme.
+   * Usage: <Theme name="blue"><Button>I'm blue!</Button></Theme>
+   * 
+   * These create contextual color themes where:
+   * - All color1-color12 tokens use shades of that color
+   * - Components automatically adapt to use the color palette
+   * - Great for: sections, cards, or components that need a color wash
+   * 
+   * NESTING EXAMPLE:
+   * <Theme name="blue">           // Everything inside is blue-tinted
+   *   <Card>                      // Uses blue palette for backgrounds
+   *     <Text>Blue text</Text>   // Uses blue palette for text
+   *     <Theme name="red">       // Nested theme! Creates blue_red
+   *       <Button />              // This button uses red palette
+   *     </Theme>
+   *   </Card>
+   * </Theme>
+   */
   childrenThemes: {
+    /**
+     * BLACK/WHITE THEMES:
+     * Special themes that use the same palette in both light and dark modes.
+     * Useful for elements that should always be black or white regardless of mode.
+     */
     black: {
       palette: {
-        dark: Object.values(blackColors),
-        light: Object.values(blackColors),
+        dark: Object.values(blackColors),   // Always black scale
+        light: Object.values(blackColors),  // Always black scale
       },
     },
     white: {
       palette: {
-        dark: Object.values(whiteColors),
-        light: Object.values(whiteColors),
+        dark: Object.values(whiteColors),   // Always white scale
+        light: Object.values(whiteColors),  // Always white scale
       },
     },
 
+    /**
+     * COLOR THEMES:
+     * Each provides a full 12-step palette in that color.
+     * Components inside these themes will use appropriate shades:
+     * - Backgrounds use blue1-3
+     * - Borders use blue6-7
+     * - Buttons use blue9
+     * - Text uses blue11-12
+     */
     blue: {
       palette: {
         dark: Object.values(Colors.blueDark),
