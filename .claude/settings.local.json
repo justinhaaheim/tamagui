@@ -9,7 +9,6 @@
       "Bash(yarn lint)",
       "Bash(yarn install)",
       "Bash(cp:*)",
-      "Bash(mv:*)",
       "Bash(rg:*)",
       "Bash(git filter-branch:*)",
       "Bash(cat:*)",
@@ -17,18 +16,12 @@
       "Bash(npm run typecheck:*)",
       "Bash(npm run:*)",
       "Bash(yarn typecheck:*)",
-      "Bash(chmod:*)",
       "Bash(./scripts/run-ios-tests-local.sh:*)",
       "Bash(appium driver list:*)",
       "Bash(bash:*)",
       "Bash(yarn test-ios)",
-      "Bash(lsof:*)",
-      "Bash(rm:*)",
-      "Bash(curl:*)",
       "Bash(npm install:*)",
-      "Bash(yarn test:web:driver-css:*)",
-      "Bash(pkill:*)",
-      "Bash(true)"
+      "Bash(yarn test:web:driver-css:*)"
     ],
     "deny": []
   }
