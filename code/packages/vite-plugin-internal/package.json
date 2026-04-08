@@ -27,7 +27,7 @@
     "@tamagui/build": "workspace:*",
     "@tamagui/config-default": "workspace:*",
     "@vitejs/plugin-react-swc": "^3.7.2",
-    "happy-dom": "^10.11.2",
+    "happy-dom": "^20.8.9",
     "react": "*",
     "vitest": "^3.2.4",
     "vitest-axe": "^0.1.0",
