@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@tamagui/build": "workspace:*",
-    "vite": "^7.0.2"
+    "vite": "^7.3.2"
   },
   "publishConfig": {
     "access": "public"
