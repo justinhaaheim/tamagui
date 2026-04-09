@@ -40,7 +40,7 @@
   "devDependencies": {
     "@tamagui/build": "workspace:*",
     "prettyjson": "^1.2.5",
-    "webpack": "^5.88.2"
+    "webpack": "^5.104.1"
   },
   "publishConfig": {
     "access": "public"
